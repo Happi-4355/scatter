@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bf6b0d79-486b-4c66-9d20-fa50b12b61bb" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="scatter-gatherFlow" doc:id="5b54dd10-d249-4300-af09-8fa2fe812d25" >
+		<http:listener doc:name="Listener" doc:id="f000e1a0-7d7f-46df-bc9d-058096d6e382" config-ref="HTTP_Listener_config" path="/scatter"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4cb4c68d-f55e-4b65-913c-76bfb88569e4" message="input recevied.............."/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="767b610b-dbe1-4eef-b5fa-1e1bd7d4d5d8" >
+			<route >
+				<set-payload value='#["happi"]' doc:name="Set Payload" doc:id="1e419037-8a86-43a3-8f7f-0c5b810aa637" />
+			</route>
+			<route >
+				<set-payload value='#["smiley"]' doc:name="Set Payload" doc:id="ce138154-4185-4662-b3ed-ba59116da485" />
+			</route>
+			<route >
+				<set-payload value='#["junnu"]' doc:name="Set Payload" doc:id="85cfd945-1604-40c6-b596-6c3fde7255d1" />
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="9f83aae9-1ce8-4924-8c55-f8a1991df5d3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	
+	"first route": payload[0].payload,
+	
+	"second route": payload[1].payload,
+	
+    "third route": payload[2].payload
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="57272d85-0758-44a5-8a5b-1ea8adbe0d01" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload pluck{
+	($$):$
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="48e36d13-804b-46bb-a3ca-c1e7ac3db72e" message="combined payload.............#[payload]"/>
+	</flow>
+</mule>
