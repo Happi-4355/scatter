@@ -46,7 +46,17 @@
 					</execution>
 				</executions>
 				<configuration>
-					<coverage>
+				
+	              <cloudHubDeployment>
+			      <uri>https://anypoint.mulesoft.com</uri>
+			      <muleVersion>4.4.0</muleVersion>
+			      <username>smiley_4355</username>
+			      <password>Happiv@4355</password>
+			      <applicationName>scatter-cloud</applicationName>
+			      <environment>SANDBOX</environment>
+			      </cloudHubDeployment>
+                
+				 <coverage>
 						<runCoverage>true</runCoverage>
 						<formats>
 							<format>html</format>
