@@ -46,6 +46,12 @@
 					</execution>
 				</executions>
 				<configuration>
+				  <coverage>
+						<runCoverage>true</runCoverage>
+						<formats>
+							<format>html</format>
+						</formats>
+				  </coverage>
 				
 	              <cloudHubDeployment>
 			      <uri>https://anypoint.mulesoft.com</uri>
@@ -54,14 +60,13 @@
 			      <password>Happiv@4355</password>
 			      <applicationName>scatter-cloud</applicationName>
 			      <environment>SANDBOX</environment>
+			      <region>us-east-1</region>
+			      <workerType>MICRO</workerType>
+			      <workers>1</workers>
+			      <objectStoreV2>true</objectStoreV2>
 			      </cloudHubDeployment>
                 
-				 <coverage>
-						<runCoverage>true</runCoverage>
-						<formats>
-							<format>html</format>
-						</formats>
-					</coverage>
+				
 				</configuration>
 			</plugin>
 		</plugins>
